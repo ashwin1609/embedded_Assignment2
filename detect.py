@@ -8,10 +8,10 @@ car_classifier = cv2.CascadeClassifier('cars.xml')
 bike_classifier = cv2.CascadeClassifier('bikes.xml')
 
 # setting the time method in python
-start = time.time()
+# start = time.time()
 # Loads the input video
 input_video = cv2.VideoCapture('cars.mp4')
-end = time.time()
+# end = time.time()
 
 # while loop to read the video frame by frame
 while input_video.isOpened():
@@ -27,10 +27,13 @@ while input_video.isOpened():
     
 # for loops to label and draw boxes around the detected object
     for (x,y,w,h) in cars:
+        start = time.time()
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 255), 2)
+        end = time.time()
         img_gray = gray[y:y+h, x:x+w]
         cars = car_classifier.detectMultiScale(img_gray)
         cv2.putText(frame, 'car', (x, y-10),cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+        print("Car Detected in x :" + str(x) + " " +"Car Detected in y : " + str(y))
 
 
     for (x,y,w,h) in bikes:
@@ -38,10 +41,11 @@ while input_video.isOpened():
         image_gray = gray[y:y+h, x:x+w]
         bikes = bike_classifier.detectMultiScale(image_gray)
         cv2.putText(frame, 'bike', (x, y-10),cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+        print("bike Detected in x :" + str(x) + " "+"bike Detected in : y :" + str(y))
 
 # displays the video frame
     cv2.imshow("Vehicle detected on the road", frame)
-
+    
 # Key to stop the code and exit the frame
 # It waits for every millisecond until the 'x' key is pressed to exit the code    
     if cv2.waitKey(1) == ord('x') : 
